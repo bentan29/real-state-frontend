@@ -56,7 +56,7 @@ export const PropertyCard = ({ property, refreshProperties }) => {
                     {/* Imagen */}
                     <div className="relative">
                         <img
-                            src={`${property?.images[0] ? property?.images[0] : '/images/casa.jpeg'}`}
+                            src={property?.images?.[0]?.url || '/images/casa.jpeg'}
                             className="w-full aspect-[4/3] object-cover rounded-t-md"
                             alt="Imagen de la propiedad"
                         />

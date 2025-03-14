@@ -47,11 +47,10 @@ export const FormUploadProperty = ({ imageFiles, setImageFiles, propertyToEdit, 
         });
         const response = await dispatch(uploadPropertyImages(formData))
         if (response.payload && response.payload.result) {
-            return response.payload.result.map(img => img.url); //-- Retorna un array de URLs
+            return response.payload.result; //-- Retorna[{ url, publicId }, ...]
         }
-        return null;
+        return [];
     } 
-
 
     //--- Guardamos formulario
     const onSubmit = async (formData) => {
@@ -67,13 +66,9 @@ export const FormUploadProperty = ({ imageFiles, setImageFiles, propertyToEdit, 
             formData.images = imageUrls; //- Agregamos las URL de imágenes
             formData.owner = user._id;
 
-            const action = propertyToEdit 
-                ? updateProperty 
-                : createProperty;
+            const action = propertyToEdit ? updateProperty : createProperty;
 
-            const payload = propertyToEdit
-                ? {id:propertyToEdit?._id, formData}         
-                : formData;          
+            const payload = propertyToEdit ? {id:propertyToEdit?._id, formData} : formData;          
 
             await dispatch(action(payload)).then((data) => {
                 toast(data.payload.message);

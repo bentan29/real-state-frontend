@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 //- Crear Propiedad
 export const createProperty = createAsyncThunk(
@@ -39,7 +40,7 @@ export const updateProperty = createAsyncThunk(
 
 //- Eliminar
 export const deleteProperty = createAsyncThunk(
-    '/propertys/getPropertyDetails',
+    'crudProperty/deleteProperty',
     async (id, {rejectWithValue}) => {
         try {
             const response = await axios.delete(
@@ -60,7 +61,8 @@ export const uploadPropertyImages = createAsyncThunk(
         try {
             const response = await axios.post(
                 'http://localhost:8080/api/propertys/seller/upload-images',
-                formData
+                formData,
+                { withCredentials: true }
             )
             return response?.data
         }catch(error) {
@@ -116,11 +118,14 @@ export const fetchAllFilteredSellerPropertys = createAsyncThunk(
             appendRangeFilter("areaTotalFilter", areaTotalFilter);
             appendRangeFilter("builtAreaFilter", builtAreaFilter);
             
-            const response = await axios.get(`http://localhost:8080/api/propertys/seller/get?${queryParams.toString()}`);
+            const response = await axios.get(
+                `http://localhost:8080/api/propertys/seller/get?${queryParams.toString()}`,
+                { withCredentials: true }
+            );
             return response?.data;
 
         } catch (error) {
-            console.error("Error en fetchAllFilteredPropertys:", error.message);
+            console.error("Error en fetchAllFilteredSellerPropertys:", error.message);
             return rejectWithValue(error.message);
         }
     }

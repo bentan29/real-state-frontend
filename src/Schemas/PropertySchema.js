@@ -1,7 +1,12 @@
 import { z } from "zod";
 
 export const PropertySchema = z.object({
-        images: z.array(z.string().url("Debe ser una URL válida")).optional(),
+        images: z.array(
+            z.object({
+                url: z.string().url("Debe ser una URL válida"),
+                publicId: z.string().min(1, "El publicId es obligatorio")
+            })
+        ).optional(),
         title: z.string()
             .min(3, "El título debe tener al menos 3 caracteres")
             .max(30, "El título no puede tener más de 30 caracteres"),

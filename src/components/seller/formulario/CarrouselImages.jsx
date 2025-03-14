@@ -7,19 +7,13 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import { ImagePlus, X } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 
 export function CarrouselImages({ imageFiles, setImageFiles, propertyImages }) {
     const [preview, setPreview] = useState(propertyImages || []); // Guardamos las URLs de las imágenes seleccionadas
-
-    // useEffect(() => {
-    //     if (propertyImages) {
-    //         setPreview(propertyImages); // Actualizar el preview si hay imágenes cargadas
-    //     }
-    // }, [propertyImages]);
     
     ///----- Al cargar una imagen
     const handleImageFileChange = (e, index) => {

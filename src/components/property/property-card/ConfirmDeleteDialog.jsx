@@ -9,16 +9,19 @@ export const ConfirmDeleteDialog = ({open, setOpen, id, refreshProperties}) => {
     const dispatch = useDispatch();
 
     const handleDelete = () => {
-        dispatch(deleteProperty(id)).then(
-            (data) => {
-                if(data.payload.success) {
-                    setOpen(false)
-                    toast(data.payload.message);
-                    refreshProperties();
-                }
+        dispatch(deleteProperty(id)).then((data) => {
+            if (data.payload.success) {
+                setOpen(false);
+                toast.success(data.payload.message); // Usamos toast.success para éxito
+                refreshProperties();
+            } else {
+                toast.error(data.payload.message || "Error al eliminar la propiedad"); // Manejo de error
             }
-        )
-    }
+        }).catch((error) => {
+            toast.error("Error inesperado al eliminar la propiedad");
+            console.error(error);
+        });
+    };
     
 
     return (
@@ -33,12 +36,12 @@ export const ConfirmDeleteDialog = ({open, setOpen, id, refreshProperties}) => {
                             variant="destructive"
                             onClick={handleDelete}
                         >
-                        Elimiar
+                        Eliminar
                         </Button>
 
                         <Button 
                             className="w-full rounded-none"
-                            onClick={()=>setOpen(!open)}
+                            onClick={()=>setOpen(false)}
                         >
                         Cancelar
                         </Button>
